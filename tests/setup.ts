@@ -6,7 +6,7 @@ import { theme } from 'antd';
 import 'fake-indexeddb/auto';
 import React from 'react';
 
-// remove antd hash on test
+// remove antd hash on 
 theme.defaultConfig.hashed = false;
 
 // 将 React 设置为全局变量，这样就不需要在每个测试文件中导入它了
