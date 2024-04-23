@@ -13,7 +13,6 @@ import { useSessionStore } from '@/store/session';
 import { agentSelectors } from '@/store/session/selectors';
 import { useToolStore } from '@/store/tool';
 import { toolSelectors } from '@/store/tool/selectors';
-import { LanguageModel } from '@/types/llm';
 
 const format = (number: number) => numeral(number).format('0,0');
 
@@ -27,13 +26,13 @@ const Token = memo(() => {
 
   const [systemRole, model] = useSessionStore((s) => [
     agentSelectors.currentAgentSystemRole(s),
-    agentSelectors.currentAgentModel(s) as LanguageModel,
+    agentSelectors.currentAgentModel(s) as string,
   ]);
 
   const maxTokens = useGlobalStore(modelProviderSelectors.modelMaxToken(model));
 
   // Tool usage token
-  const canUseTool = useGlobalStore(modelProviderSelectors.modelEnabledFunctionCall(model));
+  const canUseTool = useGlobalStore(modelProviderSelectors.isModelEnabledFunctionCall(model));
   const plugins = useSessionStore(agentSelectors.currentAgentPlugins);
   const toolsString = useToolStore((s) => {
     const pluginSystemRoles = toolSelectors.enabledSystemRoles(plugins)(s);

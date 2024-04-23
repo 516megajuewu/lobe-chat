@@ -1,16 +1,12 @@
 import { Ollama } from '@lobehub/icons';
-import { Input } from 'antd';
 import { useTheme } from 'antd-style';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { ModelProvider } from '@/libs/agent-runtime';
 
-import Checker from '../components/Checker';
 import ProviderConfig from '../components/ProviderConfig';
-import { LLMProviderBaseUrlKey, LLMProviderConfigKey } from '../const';
-
-const providerKey = 'ollama';
+import Checker from './Checker';
 
 const OllamaProvider = memo(() => {
   const { t } = useTranslation('setting');
@@ -18,33 +14,16 @@ const OllamaProvider = memo(() => {
 
   return (
     <ProviderConfig
-      configItems={[
-        {
-          children: <Input allowClear placeholder={t('llm.Ollama.endpoint.placeholder')} />,
-          desc: t('llm.Ollama.endpoint.desc'),
-          label: t('llm.Ollama.endpoint.title'),
-          name: [LLMProviderConfigKey, providerKey, LLMProviderBaseUrlKey],
-        },
-        {
-          children: (
-            <Input.TextArea
-              allowClear
-              placeholder={t('llm.Ollama.customModelName.placeholder')}
-              style={{ height: 100 }}
-            />
-          ),
-          desc: t('llm.Ollama.customModelName.desc'),
-          label: t('llm.Ollama.customModelName.title'),
-          name: [LLMProviderConfigKey, providerKey, 'customModelName'],
-        },
-        {
-          children: <Checker model={'llama2'} provider={ModelProvider.Ollama} />,
-          desc: t('llm.Ollama.checker.desc'),
-          label: t('llm.checker.title'),
-          minWidth: undefined,
-        },
-      ]}
-      provider={providerKey}
+      checkerItem={{
+        children: <Checker />,
+        desc: t('llm.checker.ollamaDesc'),
+        label: t('llm.checker.title'),
+        minWidth: undefined,
+      }}
+      modelList={{ showModelFetcher: true }}
+      provider={ModelProvider.Ollama}
+      showApiKey={false}
+      showEndpoint
       title={
         <Ollama.Combine color={theme.isDarkMode ? theme.colorText : theme.colorPrimary} size={24} />
       }
